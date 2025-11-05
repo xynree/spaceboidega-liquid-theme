@@ -16,18 +16,67 @@
 
   .video-section__media-wrapper {
     position: relative;
-      max-height: {{ section.settings.max_height }}px;
+      {%- if section.settings.max_height != blank -%}
+        max-height: {{ section.settings.max_height | times: section.settings.mobile_height_proportion | divided_by: 100 }}px;
+      {%- endif -%}
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
   }
 
+  @media screen and (min-width: 750px) {
+    .video-section__media-wrapper {
+      {%- if section.settings.max_height != blank -%}
+        max-height: {{ section.settings.max_height }}px;
+      {%- endif -%}
+    }
+  }
+
+  .video-section__overlay {
+    position: absolute;
+    display: block !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    {%- if section.settings.overlay_use_gradient -%}
+      background: linear-gradient({{ section.settings.overlay_gradient_angle }}deg, {{ section.settings.overlay_gradient_start_color }}, {{ section.settings.overlay_gradient_end_color }});
+    {%- else -%}
+      background-color: {{ section.settings.overlay_color }};
+    {%- endif -%}
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  {%- if section.settings.overlay_texture_enabled -%}
+  .video-section__grain-texture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  {%- endif -%}
+
   .video-section__media-wrapper .deferred-media {
-    {% if section.settings.max_height != 'none' %}
-      height: {{ section.settings.max_height }};
+    position: relative;
+    z-index: 1;
+    {% if section.settings.max_height != blank and section.settings.max_height != 'none' %}
+      height: {{ section.settings.max_height | times: section.settings.mobile_height_proportion | divided_by: 100 }}px;
       width: 100%;
     {% endif %}
+  }
+
+  @media screen and (min-width: 750px) {
+    .video-section__media-wrapper .deferred-media {
+      {% if section.settings.max_height != blank and section.settings.max_height != 'none' %}
+        height: {{ section.settings.max_height }}px;
+      {% endif %}
+    }
   }
 
   .video-section__media-wrapper .deferred-media iframe,
@@ -45,7 +94,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 2;
+    z-index: 3;
     text-align: center;
     color: {{ section.settings.overlay_text_color }};
     width: 90%;
@@ -128,6 +177,18 @@
 {%- endcapture -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
+  {%- if section.settings.overlay_texture_enabled -%}
+  <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+    <defs>
+      <filter id="grain-filter-{{ section.id }}">
+        <feTurbulence type='fractalNoise' baseFrequency='0.6' stitchTiles='stitch' result="colorNoise" />
+        <feColorMatrix in="colorNoise" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" />
+        <feComposite operator="in" in2="SourceGraphic" result="monoNoise"/>
+        <feBlend in="SourceGraphic" in2="monoNoise" mode="hard-light" />
+      </filter>
+    </defs>
+  </svg>
+  {%- endif -%}
   <div class="video-section isolate{% unless section.settings.full_width %} page-width{% endunless %} section-{{ section.id }}-padding">
     <div
       {% if section.settings.full_width %}
@@ -142,7 +203,21 @@
     </div>
     
     <div class="video-section__media-wrapper">
-      {%- comment -%} Overlay Content {%- endcomment -%}
+
+          
+      {%- comment -%} Color Overlay (darkens the video) {%- endcomment -%}
+      {%- if section.settings.overlay_color != blank and section.settings.overlay_opacity > 0 -%}
+        <div class="video-section__overlay">
+          {%- if section.settings.overlay_texture_enabled -%}
+          <svg class="video-section__grain-texture" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style="opacity: {{ section.settings.overlay_texture_strength | divided_by: 100.0 }};">
+            <rect width="100%" height="100%" filter="url(#grain-filter-{{ section.id }})" fill="white" />
+          </svg>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+
+      {%- comment -%} Overlay Content (text overlay) {%- endcomment -%}
       {%- if section.settings.show_overlay_content -%}
         <div class="video-overlay-content">
           {%- unless section.settings.overlay_subtitle == blank -%}
@@ -270,6 +345,7 @@
           </template>
         {% endif %}
       </deferred-media>
+
     </div>
   </div>
 </div>
@@ -346,14 +422,98 @@
       "info": "Video will stretch width to fit and clip height if it exceeds this value"
     },
     {
+      "type": "range",
+      "id": "mobile_height_proportion",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Mobile height proportion",
+      "default": 60,
+      "info": "Mobile video height as a percentage of the maximum height (e.g., 60% = 480px if max is 800px)"
+    },
+    {
       "type": "header",
-      "content": "Overlay Content"
+      "content": "Overlay"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000",
+      "info": "Used when gradient is disabled"
+    },
+    {
+      "type": "checkbox",
+      "id": "overlay_use_gradient",
+      "label": "Use gradient overlay",
+      "default": false,
+      "info": "Use a gradient instead of solid color"
+    },
+    {
+      "type": "color",
+      "id": "overlay_gradient_start_color",
+      "label": "Gradient start color",
+      "default": "#000000",
+      "info": "First color of the gradient"
+    },
+    {
+      "type": "color",
+      "id": "overlay_gradient_end_color",
+      "label": "Gradient end color",
+      "default": "#000000",
+      "info": "Second color of the gradient"
+    },
+    {
+      "type": "range",
+      "id": "overlay_gradient_angle",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "unit": "deg",
+      "label": "Gradient angle",
+      "default": 180,
+      "info": "Direction of the gradient (0° = right, 90° = bottom, 180° = left, 270° = top)"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 50,
+      "info": "0% = transparent, 100% = fully opaque"
+    },
+    {
+      "type": "checkbox",
+      "id": "overlay_texture_enabled",
+      "label": "Enable noise/grain texture",
+      "default": false,
+      "info": "Adds a fine noise/grain texture to the overlay"
+    },
+    {
+      "type": "range",
+      "id": "overlay_texture_strength",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Texture strength",
+      "default": 30,
+      "info": "Controls the intensity of the noise/grain texture"
+    },
+    {
+      "type": "header",
+      "content": "Text Overlay"
     },
     {
       "type": "checkbox",
       "id": "show_overlay_content",
-      "label": "Show overlay content",
-      "default": true
+      "label": "Show text overlay (title, subtitle, button)",
+      "default": true,
+      "info": "Controls whether text content appears on top of the video"
     },
     {
       "type": "text",
