@@ -1,0 +1,22 @@
+# README Images Directory
+
+Place images for your README.md file in this directory.
+
+This directory is ignored by Shopify CLI and will not be pushed to your Shopify theme.
+
+## Usage
+
+1. Add your images to this directory (e.g., `screenshot.png`, `feature-diagram.jpg`)
+2. Reference them in README.md using relative paths:
+   ```markdown
+   ![Screenshot](.shopify/docs/images/screenshot.png)
+   ```
+
+## Supported Formats
+
+- PNG (.png)
+- JPEG (.jpg, .jpeg)
+- GIF (.gif)
+- SVG (.svg)
+- WebP (.webp)
+
