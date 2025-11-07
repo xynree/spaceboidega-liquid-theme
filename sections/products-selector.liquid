@@ -60,20 +60,23 @@
     transform: scale(1.1);
   }
 
-  /* Content Fade Animation */
+  /* Product content fade transition */
   .product-selector__content {
-    display: none;
     opacity: 0;
-    transform: translateY(10px);
-    margin: 0 auto;
-    transition: opacity 0.5s ease
-    , transform 0.5s ease;
+    pointer-events: none;
+    transition: opacity 0.3s ease
+    , transform 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
   }
 
   .product-selector__content.active {
-    display: block;
     opacity: 1;
+    pointer-events: auto;
     transform: translateY(0);
+    position: relative;
   }
 
   /* Product Layout */
@@ -117,14 +120,15 @@
     margin-top: 1rem;
     cursor: pointer;
   }
+
 {%- endstyle -%}
 
 <div class="color-{{ section.settings.color_scheme }} isolate gradient section-{{ section.id }}-padding">
   <div class="page-width">
 
     {%- if section.settings.heading != blank -%}
-      <div class="product-selector__header-wrapper">
-        <div class="title-wrapper text-center {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      <div class="product-selector__header-wrapper {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        <div class="title-wrapper text-center ">
           <h2 class="title inline-richtext {{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
         </div>
       </div>
@@ -147,7 +151,7 @@
       </div>
 
       <!-- Product Contents -->
-      <div class="product-selector__contents">
+      <div class="product-selector__contents {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         {%- for block in section.blocks -%}
           {%- assign product = block.settings.product -%}
           {%- if product != null -%}
@@ -198,7 +202,6 @@
                         type="hidden"
                         name="id"
                         value="{{ product.selected_or_first_available_variant.id }}"
-
                         {% if product.selected_or_first_available_variant.available == false or product.selected_or_first_available_variant == null %}
                         disabled
                         {% endif %}
@@ -219,8 +222,6 @@
                           type="submit"
                           name="add"
                           class="product-form__submit button button--primary"
-
-
                           {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout or product.selected_or_first_available_variant == null %}
                           disabled
                           {% endif %}>
