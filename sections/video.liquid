@@ -2,155 +2,217 @@
 {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-
-  @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
     }
-  }
 
-  .video-section__media-wrapper {
-    position: relative;
-      {%- if section.settings.max_height != blank -%}
-        max-height: {{ section.settings.max_height | times: section.settings.mobile_height_proportion | divided_by: 100 }}px;
-      {%- endif -%}
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-  }
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
 
-  @media screen and (min-width: 750px) {
     .video-section__media-wrapper {
-      {%- if section.settings.max_height != blank -%}
-        max-height: {{ section.settings.max_height }}px;
-      {%- endif -%}
+      position: relative;
+        {%- if section.settings.max_height != blank -%}
+          max-height: {{ section.settings.max_height | times: section.settings.mobile_height_proportion | divided_by: 100 }}px;
+        {%- endif -%}
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-  }
 
-  .video-section__overlay {
-    position: absolute;
-    display: block !important;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    {%- if section.settings.overlay_use_gradient -%}
-      background: linear-gradient({{ section.settings.overlay_gradient_angle }}deg, {{ section.settings.overlay_gradient_start_color }}, {{ section.settings.overlay_gradient_end_color }});
-    {%- else -%}
-      background-color: {{ section.settings.overlay_color }};
-    {%- endif -%}
-    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  {%- if section.settings.overlay_texture_enabled -%}
-  .video-section__grain-texture {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    mix-blend-mode: overlay;
-    pointer-events: none;
-  }
-  {%- endif -%}
-
-  .video-section__media-wrapper .deferred-media {
-    position: relative;
-    z-index: 1;
-    {% if section.settings.max_height != blank and section.settings.max_height != 'none' %}
-      height: {{ section.settings.max_height | times: section.settings.mobile_height_proportion | divided_by: 100 }}px;
-      width: 100%;
-    {% endif %}
-  }
-
-  @media screen and (min-width: 750px) {
-    .video-section__media-wrapper .deferred-media {
-      {% if section.settings.max_height != blank and section.settings.max_height != 'none' %}
-        height: {{ section.settings.max_height }}px;
-      {% endif %}
+    @media screen and (min-width: 750px) {
+      .video-section__media-wrapper {
+        {%- if section.settings.max_height != blank -%}
+          max-height: {{ section.settings.max_height }}px;
+        {%- endif -%}
+      }
     }
-  }
 
-  .video-section__media-wrapper .deferred-media iframe,
-  .video-section__media-wrapper .deferred-media video {
-    {% if section.settings.max_height != 'none' %}
+    .video-section__overlay {
+      position: absolute;
+      display: block !important;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: center;
-    {% endif %}
+      {%- if section.settings.overlay_use_gradient -%}
+        background: linear-gradient({{ section.settings.overlay_gradient_angle }}deg, {{ section.settings.overlay_gradient_start_color }}, {{ section.settings.overlay_gradient_end_color }});
+      {%- else -%}
+        background-color: {{ section.settings.overlay_color }};
+      {%- endif -%}
+      opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    {%- if section.settings.overlay_texture_enabled -%}
+      .video-section__grain-texture {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 3; /* above video and overlay color */
+        pointer-events: none;
+        mix-blend-mode: overlay;
+        opacity: var(--grain-opacity, 0.3);
+      }
+    {%- endif -%}
+
+    @keyframes grainMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(5%, 5%); }
   }
 
-  .video-overlay-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 3;
-    text-align: center;
-    color: {{ section.settings.overlay_text_color }};
-    width: 90%;
-    max-width: 800px;
-    pointer-events: none;
+  .video-section__grain-texture {
+    animation: grainMove 0.4s steps(1) infinite;
   }
 
-  .video-overlay-content * {
-    pointer-events: auto;
-  }
+    .video-section__media-wrapper .deferred-media {
+      position: relative;
+      z-index: 1;
+      {% if section.settings.max_height != blank and section.settings.max_height != 'none' %}
+        height: {{ section.settings.max_height | times: section.settings.mobile_height_proportion | divided_by: 100 }}px;
+        width: 100%;
+      {% endif %}
+    }
 
-  .video-overlay__subtitle {
-    font-size: {{ section.settings.subtitle_size }}px;
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    opacity: 0.9;
-  }
+    @media screen and (min-width: 750px) {
+      .video-section__media-wrapper .deferred-media {
+        {% if section.settings.max_height != blank and section.settings.max_height != 'none' %}
+          height: {{ section.settings.max_height }}px;
+        {% endif %}
+      }
+    }
 
-  .video-overlay__title {
-    font-size: {{ section.settings.title_size }}px;
-    color: {{  section.settings.overlay_text_color }};
-    font-weight: bold;
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-    line-height: 1.2;
-  }
+    .video-section__media-wrapper .deferred-media iframe,
+    .video-section__media-wrapper .deferred-media video {
+      {% if section.settings.max_height != 'none' %}
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      {% endif %}
+    }
 
-  @media screen and (max-width: 749px) {
+    {%- if section.settings.video_blur_enabled -%}
+    .video-section__media-wrapper .deferred-media iframe,
+    .video-section__media-wrapper .deferred-media video {
+      filter: blur({{ section.settings.video_blur_amount }}px);
+      transform: scale(1.05); /* Prevents blur edges from showing */
+    }
+    {%- endif -%}
+
+    .video-overlay-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      text-align: center;
+      color: {{ section.settings.overlay_text_color }};
+      width: 90%;
+      max-width: 800px;
+      pointer-events: none;
+    }
+
+    .video-overlay-content * {
+      pointer-events: auto;
+    }
+
     .video-overlay__subtitle {
-      font-size: calc({{ section.settings.subtitle_size }}px * 0.7);
+      font-size: {{ section.settings.subtitle_size }}px;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.9;
     }
-    
+
     .video-overlay__title {
-      font-size: calc({{ section.settings.title_size }}px * 0.6);
+      font-size: {{ section.settings.title_size }}px;
+      color: {{  section.settings.overlay_text_color }};
+      font-weight: bold;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      line-height: 1.2;
     }
-  }
 
-  .video-overlay__button {
-    display: inline-block;
-    padding: 1rem 2rem;
-    background-color: {{ section.settings.button_bg_color }};
-    color: {{ section.settings.button_text_color }};
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-  }
+    @media screen and (max-width: 749px) {
+      .video-overlay__subtitle {
+        font-size: calc({{ section.settings.subtitle_size }}px * 0.7);
+      }
 
-  .video-overlay__button:hover {
-    background-color: {{ section.settings.button_hover_bg_color }};
-    color: {{ section.settings.button_hover_text_color }};
-    transform: translateY(-2px);
-  }
+      .video-overlay__title {
+        font-size: calc({{ section.settings.title_size }}px * 0.6);
+      }
+    }
 
+    .video-overlay__button {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background-color: {{ section.settings.button_bg_color }};
+      color: {{ section.settings.button_text_color }};
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .video-overlay__button:hover {
+      background-color: {{ section.settings.button_hover_bg_color }};
+      color: {{ section.settings.button_hover_text_color }};
+      transform: translateY(-2px);
+    }
+
+
+    .video-overlay-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  text-align: center;
+  color: {{ section.settings.overlay_text_color }};
+  width: 90%;
+  max-width: 800px;
+  pointer-events: none;
+}
+
+/* Base fade-up keyframes */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply staggered animation delays */
+.video-overlay__subtitle,
+.video-overlay__title,
+.video-overlay__button {
+  opacity: 0;
+  animation: fadeUp 0.6s ease-out forwards;
+}
+
+.video-overlay__subtitle {
+  animation-delay: 0.2s; /* fastest */
+}
+.video-overlay__title {
+  animation-delay: 0.3s;
+}
+.video-overlay__button {
+  animation-delay: 0.4s; /* slowest */
+}
 {%- endstyle -%}
 
 {%- liquid
@@ -177,18 +239,7 @@
 {%- endcapture -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
-  {%- if section.settings.overlay_texture_enabled -%}
-  <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
-    <defs>
-      <filter id="grain-filter-{{ section.id }}">
-        <feTurbulence type='fractalNoise' baseFrequency='0.6' stitchTiles='stitch' result="colorNoise" />
-        <feColorMatrix in="colorNoise" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" />
-        <feComposite operator="in" in2="SourceGraphic" result="monoNoise"/>
-        <feBlend in="SourceGraphic" in2="monoNoise" mode="hard-light" />
-      </filter>
-    </defs>
-  </svg>
-  {%- endif -%}
+
   <div class="video-section isolate{% unless section.settings.full_width %} page-width{% endunless %} section-{{ section.id }}-padding">
     <div
       {% if section.settings.full_width %}
@@ -201,20 +252,8 @@
         </div>
       {%- endunless -%}
     </div>
-    
-    <div class="video-section__media-wrapper">
 
-          
-      {%- comment -%} Color Overlay (darkens the video) {%- endcomment -%}
-      {%- if section.settings.overlay_color != blank and section.settings.overlay_opacity > 0 -%}
-        <div class="video-section__overlay">
-          {%- if section.settings.overlay_texture_enabled -%}
-          <svg class="video-section__grain-texture" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" style="opacity: {{ section.settings.overlay_texture_strength | divided_by: 100.0 }};">
-            <rect width="100%" height="100%" filter="url(#grain-filter-{{ section.id }})" fill="white" />
-          </svg>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
+    <div class="video-section__media-wrapper">
 
 
       {%- comment -%} Overlay Content (text overlay) {%- endcomment -%}
@@ -223,11 +262,11 @@
           {%- unless section.settings.overlay_subtitle == blank -%}
             <p class="video-overlay__subtitle">{{ section.settings.overlay_subtitle }}</p>
           {%- endunless -%}
-          
+
           {%- unless section.settings.overlay_title == blank -%}
             <h2 class="video-overlay__title">{{ section.settings.overlay_title }}</h2>
           {%- endunless -%}
-          
+
           {%- unless section.settings.button_label == blank -%}
             <a href="{{ section.settings.button_link }}" class="video-overlay__button">
               {{ section.settings.button_label }}
@@ -346,6 +385,35 @@
         {% endif %}
       </deferred-media>
 
+
+      {%- if section.settings.overlay_color != blank and section.settings.overlay_opacity > 0 -%}
+        <div class="video-section__overlay">
+      {%- if section.settings.overlay_texture_enabled -%}
+        <svg
+          class="video-section__grain-texture"
+          xmlns="http://www.w3.org/2000/svg"
+          width="100%"
+          height="100%"
+          preserveAspectRatio="none"
+          style="
+            opacity: {{ section.settings.overlay_texture_strength | divided_by: 100.0 }};
+            mix-blend-mode: overlay;
+          "
+        >
+          <filter id="grain-filter-{{ section.id }}">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch" />
+            <feColorMatrix type="matrix" values="
+              1 0 0 0 0
+              0 1 0 0 0
+              0 0 1 0 0
+              0 0 0 2 -0.5" />
+          </filter>
+          <rect width="100%" height="100%" filter="url(#grain-filter-{{ section.id }})" />
+        </svg>
+      {%- endif -%}
+
+      </div>
+    {%- endif -%}
     </div>
   </div>
 </div>
@@ -503,6 +571,23 @@
       "label": "Texture strength",
       "default": 30,
       "info": "Controls the intensity of the noise/grain texture"
+    },
+    {
+      "type": "range",
+      "id": "video_blur_amount",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Video blur amount",
+      "default": 0,
+      "info": "Applies a blur effect to the background video."
+    },
+    {
+      "type": "checkbox",
+      "id": "video_blur_enabled",
+      "label": "Enable blur effect on video",
+      "default": false
     },
     {
       "type": "header",
