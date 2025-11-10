@@ -483,13 +483,7 @@ h6:empty {
 
 /* ---------- Global text max width ---------- */
 .text-body,
-h1, h2, h3, h4, h5, h6,
-.subtitle,
-.caption,
-.rte,
-.title,
-.title-wrapper,
-.title-wrapper-with-link {
+.rte {
   max-width: 480px;
 }
 
