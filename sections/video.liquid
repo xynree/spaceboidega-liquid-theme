@@ -2,113 +2,176 @@
 {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-    }
-
-    @media screen and (min-width: 750px) {
       .section-{{ section.id }}-padding {
-        padding-top: {{ section.settings.padding_top }}px;
-        padding-bottom: {{ section.settings.padding_bottom }}px;
+        padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+        padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
       }
-    }
 
-    .video-section__media-wrapper {
-      position: relative;
-        {%- if section.settings.max_height != blank -%}
-          max-height: {{ section.settings.max_height | times: section.settings.mobile_height_proportion | divided_by: 100 }}px;
-        {%- endif -%}
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+      @media screen and (min-width: 750px) {
+        .section-{{ section.id }}-padding {
+          padding-top: {{ section.settings.padding_top }}px;
+          padding-bottom: {{ section.settings.padding_bottom }}px;
+        }
+      }
 
-    @media screen and (min-width: 750px) {
       .video-section__media-wrapper {
-        {%- if section.settings.max_height != blank -%}
-          max-height: {{ section.settings.max_height }}px;
-        {%- endif -%}
+        position: relative;
+          {%- if section.settings.max_height != blank -%}
+            max-height: {{ section.settings.max_height | times: section.settings.mobile_height_proportion | divided_by: 100 }}px;
+          {%- endif -%}
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
       }
-    }
 
-    .video-section__overlay {
-      position: absolute;
-      display: block !important;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      {%- if section.settings.overlay_use_gradient -%}
-        background: linear-gradient({{ section.settings.overlay_gradient_angle }}deg, {{ section.settings.overlay_gradient_start_color }}, {{ section.settings.overlay_gradient_end_color }});
-      {%- else -%}
-        background-color: {{ section.settings.overlay_color }};
-      {%- endif -%}
-      opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
-      z-index: 2;
-      pointer-events: none;
-    }
+      @media screen and (min-width: 750px) {
+        .video-section__media-wrapper {
+          {%- if section.settings.max_height != blank -%}
+            max-height: {{ section.settings.max_height }}px;
+          {%- endif -%}
+        }
+      }
 
-    {%- if section.settings.overlay_texture_enabled -%}
-      .video-section__grain-texture {
+      .video-section__overlay {
         position: absolute;
+        display: block !important;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 3; /* above video and overlay color */
+        {%- if section.settings.overlay_use_gradient -%}
+          background: linear-gradient({{ section.settings.overlay_gradient_angle }}deg, {{ section.settings.overlay_gradient_start_color }}, {{ section.settings.overlay_gradient_end_color }});
+        {%- else -%}
+          background-color: {{ section.settings.overlay_color }};
+        {%- endif -%}
+        opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+        z-index: 2;
         pointer-events: none;
-        mix-blend-mode: overlay;
-        opacity: var(--grain-opacity, 0.3);
       }
-    {%- endif -%}
 
-    @keyframes grainMove {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(5%, 5%); }
-  }
+      {%- if section.settings.overlay_texture_enabled -%}
+        .video-section__grain-texture {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 3; /* above video and overlay color */
+          pointer-events: none;
+          mix-blend-mode: overlay;
+          opacity: var(--grain-opacity, 0.3);
+        }
+      {%- endif -%}
 
-  .video-section__grain-texture {
-    animation: grainMove 0.4s steps(1) infinite;
-  }
-
-    .video-section__media-wrapper .deferred-media {
-      position: relative;
-      z-index: 1;
-      {% if section.settings.max_height != blank and section.settings.max_height != 'none' %}
-        height: {{ section.settings.max_height | times: section.settings.mobile_height_proportion | divided_by: 100 }}px;
-        width: 100%;
-      {% endif %}
+      @keyframes grainMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(5%, 5%); }
     }
 
-    @media screen and (min-width: 750px) {
+    .video-section__grain-texture {
+      animation: grainMove 0.4s steps(1) infinite;
+    }
+
       .video-section__media-wrapper .deferred-media {
+        position: relative;
+        z-index: 1;
         {% if section.settings.max_height != blank and section.settings.max_height != 'none' %}
-          height: {{ section.settings.max_height }}px;
+          height: {{ section.settings.max_height | times: section.settings.mobile_height_proportion | divided_by: 100 }}px;
+          width: 100%;
         {% endif %}
       }
-    }
 
-    .video-section__media-wrapper .deferred-media iframe,
-    .video-section__media-wrapper .deferred-media video {
-      {% if section.settings.max_height != 'none' %}
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-      {% endif %}
-    }
+      @media screen and (min-width: 750px) {
+        .video-section__media-wrapper .deferred-media {
+          {% if section.settings.max_height != blank and section.settings.max_height != 'none' %}
+            height: {{ section.settings.max_height }}px;
+          {% endif %}
+        }
+      }
 
-    {%- if section.settings.video_blur_enabled -%}
-    .video-section__media-wrapper .deferred-media iframe,
-    .video-section__media-wrapper .deferred-media video {
-      filter: blur({{ section.settings.video_blur_amount }}px);
-      transform: scale(1.05); /* Prevents blur edges from showing */
-    }
-    {%- endif -%}
+      .video-section__media-wrapper .deferred-media iframe,
+      .video-section__media-wrapper .deferred-media video {
+        {% if section.settings.max_height != 'none' %}
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+        {% endif %}
+      }
 
-    .video-overlay-content {
+      {%- if section.settings.video_blur_enabled -%}
+      .video-section__media-wrapper .deferred-media iframe,
+      .video-section__media-wrapper .deferred-media video {
+        filter: blur({{ section.settings.video_blur_amount }}px);
+        transform: scale(1.05); /* Prevents blur edges from showing */
+      }
+      {%- endif -%}
+
+      .video-overlay-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        text-align: center;
+        color: {{ section.settings.overlay_text_color }};
+        width: 90%;
+        max-width: 800px;
+        pointer-events: none;
+      }
+
+      .video-overlay-content * {
+        pointer-events: auto;
+      }
+
+      .video-overlay__subtitle {
+        font-size: {{ section.settings.subtitle_size }}px;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0.9;
+      }
+
+      .video-overlay__title {
+        font-size: {{ section.settings.title_size }}px;
+        color: {{  section.settings.overlay_text_color }};
+        font-weight: bold;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+        line-height: 1.2;
+      }
+
+      @media screen and (max-width: 749px) {
+        .video-overlay__subtitle {
+          font-size: calc({{ section.settings.subtitle_size }}px * 0.7);
+        }
+
+        .video-overlay__title {
+          font-size: calc({{ section.settings.title_size }}px * 0.6);
+        }
+      }
+
+      .video-overlay__button {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background-color: {{ section.settings.button_bg_color }};
+        color: {{ section.settings.button_text_color }};
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+      }
+
+      .video-overlay__button:hover {
+        background-color: {{ section.settings.button_hover_bg_color }};
+        color: {{ section.settings.button_hover_text_color }};
+        transform: translateY(-2px);
+      }
+
+
+      .video-overlay-content {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -121,98 +184,31 @@
       pointer-events: none;
     }
 
-    .video-overlay-content * {
-      pointer-events: auto;
+  /* Base fade-up keyframes */
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
     }
-
-    .video-overlay__subtitle {
-      font-size: {{ section.settings.subtitle_size }}px;
-      margin-bottom: 0.5rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      opacity: 0.9;
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
+  }
 
-    .video-overlay__title {
-      font-size: {{ section.settings.title_size }}px;
-      color: {{  section.settings.overlay_text_color }};
-      font-weight: bold;
-      margin-top: 1rem;
-      margin-bottom: 2rem;
-      line-height: 1.2;
-    }
-
-    @media screen and (max-width: 749px) {
-      .video-overlay__subtitle {
-        font-size: calc({{ section.settings.subtitle_size }}px * 0.7);
-      }
-
-      .video-overlay__title {
-        font-size: calc({{ section.settings.title_size }}px * 0.6);
-      }
-    }
-
-    .video-overlay__button {
-      display: inline-block;
-      padding: 1rem 2rem;
-      background-color: {{ section.settings.button_bg_color }};
-      color: {{ section.settings.button_text_color }};
-      text-decoration: none;
-      border-radius: 4px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      border: 2px solid transparent;
-    }
-
-    .video-overlay__button:hover {
-      background-color: {{ section.settings.button_hover_bg_color }};
-      color: {{ section.settings.button_hover_text_color }};
-      transform: translateY(-2px);
-    }
-
-
-    .video-overlay-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 3;
-  text-align: center;
-  color: {{ section.settings.overlay_text_color }};
-  width: 90%;
-  max-width: 800px;
-  pointer-events: none;
-}
-
-/* Base fade-up keyframes */
-@keyframes fadeUp {
-  from {
+  /* Apply staggered animation delays */
+  .video-overlay__subtitle,
+  .video-overlay__title,
+  .video-overlay__button,
+  .video-overlay__image {
     opacity: 0;
-    transform: translateY(20px);
+    animation: fadeUp 0.6s ease-out forwards;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .video-overlay__image img {
+    width: 100%;
+    height: auto;
   }
-}
-
-/* Apply staggered animation delays */
-.video-overlay__subtitle,
-.video-overlay__title,
-.video-overlay__button {
-  opacity: 0;
-  animation: fadeUp 0.6s ease-out forwards;
-}
-
-.video-overlay__subtitle {
-  animation-delay: 0.2s; /* fastest */
-}
-.video-overlay__title {
-  animation-delay: 0.3s;
-}
-.video-overlay__button {
-  animation-delay: 0.4s; /* slowest */
-}
 {%- endstyle -%}
 
 {%- liquid
@@ -239,7 +235,6 @@
 {%- endcapture -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
-
   <div class="video-section isolate{% unless section.settings.full_width %} page-width{% endunless %} section-{{ section.id }}-padding">
     <div
       {% if section.settings.full_width %}
@@ -254,24 +249,70 @@
     </div>
 
     <div class="video-section__media-wrapper">
+      {%- comment -%} Overlay Content Blocks (text overlay) {%- endcomment -%}
 
-
-      {%- comment -%} Overlay Content (text overlay) {%- endcomment -%}
-      {%- if section.settings.show_overlay_content -%}
+      {%- if section.blocks.size > 0 -%}
         <div class="video-overlay-content">
-          {%- unless section.settings.overlay_subtitle == blank -%}
-            <p class="video-overlay__subtitle">{{ section.settings.overlay_subtitle }}</p>
-          {%- endunless -%}
+          {%- for block in section.blocks -%}
+            <!-- Animation Delay -->
+            {% assign delay = 0.2 | plus: forloop.index0 | times: 0.25 %}
+            {% case block.type %}
+              {% when 'subtitle' %}
+                {% if block.settings.text != blank %}
+                  <p
+                    class="video-overlay__subtitle"
+                    style="animation: fadeUp 0.6s ease-out forwards; animation-delay: {{ delay }}s;"
+                    {{ block.shopify_attributes }}
+                  >
+                    {{ block.settings.text }}
+                  </p>
+                {% endif %}
 
-          {%- unless section.settings.overlay_title == blank -%}
-            <h2 class="video-overlay__title">{{ section.settings.overlay_title }}</h2>
-          {%- endunless -%}
+              {% when 'title' %}
+                {% if block.settings.text != blank %}
+                  <h2
+                    class="video-overlay__title"
+                    style="animation: fadeUp 0.6s ease-out forwards; animation-delay: {{ delay }}s;"
+                    {{ block.shopify_attributes }}
+                  >
+                    {{ block.settings.text }}
+                  </h2>
+                {% endif %}
 
-          {%- unless section.settings.button_label == blank -%}
-            <a href="{{ section.settings.button_link }}" class="video-overlay__button">
-              {{ section.settings.button_label }}
-            </a>
-          {%- endunless -%}
+              {% when 'image' %}
+                {%- style -%}
+                  .video-overlay__image {
+                    max-width: {{ block.settings.max_width }}px;
+                  }
+
+                  .video-overlay__image img {
+                    opacity: {{ block.settings.opacity | divided_by: 100.0 }};
+                  }
+                {%- endstyle -%}
+
+                {% if block.settings.image != blank %}
+                  <div
+                    class="video-overlay__image"
+                    style="animation: fadeUp 0.6s ease-out forwards; animation-delay: {{ delay }}s;"
+                    {{ block.shopify_attributes }}
+                  >
+                    {{ block.settings.image | image_url: width: 800 | image_tag: alt: block.settings.alt }}
+                  </div>
+                {% endif %}
+
+              {% when 'button' %}
+                {% if block.settings.label != blank %}
+                  <a
+                    href="{{ block.settings.link }}"
+                    style="animation: fadeUp 0.6s ease-out forwards; animation-delay: {{ delay }}s;"
+                    class="video-overlay__button"
+                    {{ block.shopify_attributes }}
+                  >
+                    {{ block.settings.label }}
+                  </a>
+                {% endif %}
+            {% endcase %}
+          {%- endfor -%}
         </div>
       {%- endif -%}
 
@@ -385,35 +426,33 @@
         {% endif %}
       </deferred-media>
 
-
       {%- if section.settings.overlay_color != blank and section.settings.overlay_opacity > 0 -%}
         <div class="video-section__overlay">
-      {%- if section.settings.overlay_texture_enabled -%}
-        <svg
-          class="video-section__grain-texture"
-          xmlns="http://www.w3.org/2000/svg"
-          width="100%"
-          height="100%"
-          preserveAspectRatio="none"
-          style="
-            opacity: {{ section.settings.overlay_texture_strength | divided_by: 100.0 }};
-            mix-blend-mode: overlay;
-          "
-        >
-          <filter id="grain-filter-{{ section.id }}">
-            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch" />
-            <feColorMatrix type="matrix" values="
-              1 0 0 0 0
-              0 1 0 0 0
-              0 0 1 0 0
-              0 0 0 2 -0.5" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#grain-filter-{{ section.id }})" />
-        </svg>
+          {%- if section.settings.overlay_texture_enabled -%}
+            <svg
+              class="video-section__grain-texture"
+              xmlns="http://www.w3.org/2000/svg"
+              width="100%"
+              height="100%"
+              preserveAspectRatio="none"
+              style="
+                opacity: {{ section.settings.overlay_texture_strength | divided_by: 100.0 }};
+                mix-blend-mode: overlay;
+              "
+            >
+              <filter id="grain-filter-{{ section.id }}">
+                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch" />
+                <feColorMatrix type="matrix" values="
+                  1 0 0 0 0
+                  0 1 0 0 0
+                  0 0 1 0 0
+                  0 0 0 2 -0.5" />
+              </filter>
+              <rect width="100%" height="100%" filter="url(#grain-filter-{{ section.id }})" />
+            </svg>
+          {%- endif -%}
+        </div>
       {%- endif -%}
-
-      </div>
-    {%- endif -%}
     </div>
   </div>
 </div>
@@ -598,39 +637,7 @@
       "id": "show_overlay_content",
       "label": "Show text overlay (title, subtitle, button)",
       "default": true,
-      "info": "Controls whether text content appears on top of the video"
-    },
-    {
-      "type": "text",
-      "id": "overlay_subtitle",
-      "label": "Subtitle",
-      "default": "Welcome to"
-    },
-    {
-      "type": "text",
-      "id": "overlay_title",
-      "label": "Title",
-      "default": "Our Story"
-    },
-    {
-      "type": "range",
-      "id": "subtitle_size",
-      "min": 12,
-      "max": 36,
-      "step": 2,
-      "unit": "px",
-      "label": "Subtitle size",
-      "default": 16
-    },
-    {
-      "type": "range",
-      "id": "title_size",
-      "min": 20,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Title size",
-      "default": 48
+      "info": "Controls whether overlay content appears on top of the video"
     },
     {
       "type": "color",
@@ -641,17 +648,6 @@
     {
       "type": "header",
       "content": "Button Settings"
-    },
-    {
-      "type": "text",
-      "id": "button_label",
-      "label": "Button label",
-      "default": "Learn More"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Button link"
     },
     {
       "type": "color",
@@ -752,6 +748,106 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "subtitle",
+      "name": "Subtitle",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Subtitle text",
+          "default": "Welcome to"
+        },
+        {
+          "type": "range",
+          "id": "size",
+          "min": 12,
+          "max": 36,
+          "step": 2,
+          "unit": "px",
+          "label": "Font size",
+          "default": 16
+        }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Title text",
+          "default": "Our Story"
+        },
+        {
+          "type": "range",
+          "id": "size",
+          "min": 20,
+          "max": 120,
+          "step": 4,
+          "unit": "px",
+          "label": "Font size",
+          "default": 48
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Overlay image"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt text",
+          "default": "Overlay image"
+        },
+        {
+          "type": "range",
+          "id": "max_width",
+          "label": "Maximum image width",
+          "min": 50,
+          "max": 1800,
+          "step": 50,
+          "unit": "px",
+          "default": 300
+        },
+        {
+          "type": "range",
+          "id": "opacity",
+          "label": "Image opacity",
+          "min": 10,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 100
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button label",
+          "default": "Learn More"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button link"
+        }
+      ]
     }
   ],
   "presets": [

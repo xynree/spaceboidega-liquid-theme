@@ -88,7 +88,8 @@
                   {%- if block.settings.button_label != blank -%}
                     <a
                       {% if block.settings.button_link == blank %}
-                        role="link" aria-disabled="true"
+                        role="link"
+                        aria-disabled="true"
                       {% else %}
                         href="{{ block.settings.button_link }}"
                       {% endif %}
@@ -203,7 +204,7 @@
     {
       "type": "header",
       "content": "t:sections.image-with-text.settings.header.content"
-    }, 
+    },
     {
       "type": "select",
       "id": "content_layout",
@@ -219,7 +220,7 @@
       ],
       "default": "no-overlap",
       "label": "t:sections.image-with-text.settings.content_layout.label"
-    },       
+    },
     {
       "type": "select",
       "id": "desktop_content_position",
@@ -283,7 +284,7 @@
     {
       "type": "header",
       "content": "t:sections.image-with-text.settings.header_colors.content"
-    },        
+    },
     {
       "type": "color_scheme",
       "id": "section_color_scheme",

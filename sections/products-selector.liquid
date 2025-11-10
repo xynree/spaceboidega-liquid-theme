@@ -3,7 +3,6 @@
 <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 
 {%- style -%}
-
   /* Header Centering */
   .product-selector__header-wrapper {
     text-align: center;
@@ -91,6 +90,7 @@
     .product-selector__product-info {
       flex-direction: row;
       align-items: flex-start;
+      justify-content: center;
     }
   }
 
@@ -102,7 +102,6 @@
   }
 
   .product-selector__product-details {
-    flex: 1;
     text-align: left;
   }
 
@@ -120,12 +119,10 @@
     margin-top: 1rem;
     cursor: pointer;
   }
-
 {%- endstyle -%}
 
 <div class="color-{{ section.settings.color_scheme }} isolate gradient section-{{ section.id }}-padding">
   <div class="page-width">
-
     {%- if section.settings.heading != blank -%}
       <div class="product-selector__header-wrapper {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         <div class="title-wrapper text-center ">
@@ -143,7 +140,8 @@
             <button
               type="button"
               class="product-tab-button"
-              data-index="{{ forloop.index0 }}">
+              data-index="{{ forloop.index0 }}"
+            >
               {{ block.settings.button_label | default: product.title }}
             </button>
           {%- endif -%}
@@ -158,10 +156,13 @@
             {%- assign product_form_id = 'product-form-' | append: section.id | append: forloop.index -%}
             <div class="product-selector__content" data-index="{{ forloop.index0 }}">
               <div class="product-selector__product-info">
-
                 <div class="product-selector__product-media">
                   {%- if product.featured_media -%}
-                    {{ product.featured_media | image_url: width: 800 | image_tag: loading: "lazy", alt: product.featured_media.alt }}
+                    {{
+                      product.featured_media
+                      | image_url: width: 800
+                      | image_tag: loading: 'lazy', alt: product.featured_media.alt
+                    }}
                   {%- else -%}
                     {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
                   {%- endif -%}
@@ -176,36 +177,39 @@
                   {%- endif -%}
 
                   <div class="product-selector__product-price">
-                    {%- render 'price'
-                      , product: product -%}
+                    {%- render 'price', product: product -%}
                   </div>
 
                   <product-form class="product-form" data-section-id="{{ section.id }}">
                     <div
                       class="product-form__error-message-wrapper"
                       role="alert"
-                      hidden>
+                      hidden
+                    >
                       <span class="svg-wrapper">
                         {{- 'icon-error.svg' | inline_asset_content -}}
                       </span>
                       <span class="product-form__error-message"></span>
                     </div>
 
-                    {%- form 'product'
-                      , product
-                      , id: product_form_id
-                      , class: 'form'
-                      , novalidate: 'novalidate'
-                      , data-type: 'add-to-cart-form'
+                    {%- form 'product',
+                      product,
+                      id: product_form_id,
+                      class: 'form',
+                      novalidate: 'novalidate',
+                      data-type: 'add-to-cart-form'
                     -%}
                       <input
                         type="hidden"
                         name="id"
                         value="{{ product.selected_or_first_available_variant.id }}"
-                        {% if product.selected_or_first_available_variant.available == false or product.selected_or_first_available_variant == null %}
-                        disabled
+                        {% if product.selected_or_first_available_variant.available == false
+                          or product.selected_or_first_available_variant == null
+                        %}
+                          disabled
                         {% endif %}
-                        class="product-variant-id">
+                        class="product-variant-id"
+                      >
 
                       <div class="product-form__buttons">
                         {%- liquid
@@ -222,13 +226,19 @@
                           type="submit"
                           name="add"
                           class="product-form__submit button button--primary"
-                          {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout or product.selected_or_first_available_variant == null %}
-                          disabled
-                          {% endif %}>
+                          {% if product.selected_or_first_available_variant.available == false
+                            or quantity_rule_soldout
+                            or product.selected_or_first_available_variant == null
+                          %}
+                            disabled
+                          {% endif %}
+                        >
                           <span>
                             {%- if product.selected_or_first_available_variant == null -%}
                               {{ 'products.product.unavailable' | t }}
-                            {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+                            {%- elsif product.selected_or_first_available_variant.available == false
+                              or quantity_rule_soldout
+                            -%}
                               {{ 'products.product.sold_out' | t }}
                             {%- else -%}
                               {{ block.settings.button_text | default: 'Add to Cart' }}
@@ -240,7 +250,6 @@
                     {%- endform -%}
                   </product-form>
                 </div>
-
               </div>
             </div>
           {%- endif -%}
@@ -252,126 +261,134 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-  const tabs = document.querySelectorAll('.product-tab-button');
-  const contents = document.querySelectorAll('.product-selector__content');
+    const tabs = document.querySelectorAll('.product-tab-button');
+    const contents = document.querySelectorAll('.product-selector__content');
 
-  function showContent(index) {
-    contents.forEach(c => {
-      c.classList.remove('active');
-      c.style.pointerEvents = 'none';
-    });
-    tabs.forEach(t => t.classList.remove('active'));
+    function showContent(index) {
+      contents.forEach((c) => {
+        c.classList.remove('active');
+        c.style.pointerEvents = 'none';
+      });
+      tabs.forEach((t) => t.classList.remove('active'));
 
-    const activeContent = document.querySelector(`.product-selector__content[data-index='${index}']`);
-    if (activeContent) {
-      activeContent.classList.add('active');
-      activeContent.style.pointerEvents = 'auto';
+      const activeContent = document.querySelector(`.product-selector__content[data-index='${index}']`);
+      if (activeContent) {
+        activeContent.classList.add('active');
+        activeContent.style.pointerEvents = 'auto';
+      }
+      tabs[index].classList.add('active');
     }
-    tabs[index].classList.add('active');
-  }
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => showContent(tab.dataset.index));
-  });
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => showContent(tab.dataset.index));
+    });
 
-  // Initial state
-  if (contents[0]) showContent(0);
+    // Initial state
+    if (contents[0]) showContent(0);
   });
 </script>
 
 {% schema %}
-  {
-    "name": "Product Selector",
-    "settings": [
-      {
-        "type": "inline_richtext",
-        "id": "heading",
-        "default": "Choose Your Spaceboi",
-        "label": "Heading"
-      },
-      {
-        "type": "color_scheme",
-        "id": "color_scheme",
-        "label": "t:sections.all.colors.label",
-        "default": "scheme-1"
-      },
-      {
-        "type": "select",
-        "id": "heading_size",
-        "label": "Heading size",
-        "options": [
-          {
-            "value": "h2",
-            "label": "Medium"
-          }, {
-            "value": "h1",
-            "label": "Large"
-          }, {
-            "value": "hxl",
-            "label": "Extra Large"
-          }
-        ],
-        "default": "h1"
-      },
-      {
-        "type": "text",
-        "id": "button_text",
-        "label": "Button Text",
-        "default": "Add to Cart"
-      }, {
-        "type": "header",
-        "content": "t:sections.all.padding.section_padding_heading"
-      }, {
-        "type": "range",
-        "id": "padding_top",
-        "min": 0,
-        "max": 100,
-        "step": 4,
-        "unit": "px",
-        "label": "t:sections.all.padding.padding_top",
-        "default": 36
-      }, {
-        "type": "range",
-        "id": "padding_bottom",
-        "min": 0,
-        "max": 100,
-        "step": 4,
-        "unit": "px",
-        "label": "t:sections.all.padding.padding_bottom",
-        "default": 36
-      }
-    ],
-    "blocks": [
-      {
-        "type": "product",
-        "name": "Product",
-        "settings": [
-          {
-            "type": "product",
-            "id": "product",
-            "label": "Product"
-          }, {
-            "type": "text",
-            "id": "button_label",
-            "label": "Tab Label",
-            "default": "Option"
-          }
-        ]
-      }
-    ],
-    "presets": [
-      {
-        "name": "Product Selector",
-        "blocks": [
-          {
-            "type": "product"
-          }, {
-            "type": "product"
-          }, {
-            "type": "product"
-          }
-        ]
-      }
-    ]
-  }
+{
+  "name": "Product Selector",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Choose Your Spaceboi",
+      "label": "Heading"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Medium"
+        },
+        {
+          "value": "h1",
+          "label": "Large"
+        },
+        {
+          "value": "hxl",
+          "label": "Extra Large"
+        }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Tab Label",
+          "default": "Option"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Selector",
+      "blocks": [
+        {
+          "type": "product"
+        },
+        {
+          "type": "product"
+        },
+        {
+          "type": "product"
+        }
+      ]
+    }
+  ]
+}
 {% endschema %}
