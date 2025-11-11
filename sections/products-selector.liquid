@@ -8,10 +8,9 @@
     text-align: center;
   }
 
-  .section-{{ section.id }}
-  -padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
   }
 
   @media screen and (min-width: 750px) {
@@ -33,7 +32,7 @@
   .product-tab-button {
     display: flex;
     justify-content: center;
-    padding: 0.5rem 0.25rem;
+    padding: 0.75rem 0.5rem;
     min-width: 100px;
     border: 1px solid rgb(var(--color-foreground), 0.2);
     background: transparent;
@@ -41,7 +40,7 @@
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-family: var(--font-body-family);
     line-height: 1.4;
     transition: all 0.25s ease;
@@ -116,7 +115,7 @@
   }
 
   .product-form__buttons button {
-    margin-top: 1rem;
+    margin-top: 4rem;
     cursor: pointer;
   }
 {%- endstyle -%}
@@ -158,11 +157,13 @@
               <div class="product-selector__product-info">
                 <div class="product-selector__product-media">
                   {%- if product.featured_media -%}
-                    {{
-                      product.featured_media
-                      | image_url: width: 800
-                      | image_tag: loading: 'lazy', alt: product.featured_media.alt
-                    }}
+                    <a href="{{ product.url }}">
+                      {{
+                        product.featured_media
+                        | image_url: width: 800
+                        | image_tag: loading: 'lazy', alt: product.featured_media.alt
+                      }}
+                    </a>
                   {%- else -%}
                     {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
                   {%- endif -%}

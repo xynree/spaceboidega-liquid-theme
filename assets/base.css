@@ -481,12 +481,6 @@ h6:empty {
   display: none;
 }
 
-/* ---------- Global text max width ---------- */
-.text-body,
-.rte {
-  max-width: 480px;
-}
-
 .link,
 .customer a {
   cursor: pointer;
