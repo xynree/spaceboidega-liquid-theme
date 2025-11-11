@@ -1,0 +1,40 @@
+<div>blocks go here</div>
+
+{% schema %}
+{
+  "name": "Meet The Crew",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Meet The Crew",
+      "label": "Header text"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "default": "All the Spaceboi Characters",
+      "label": "Subheader text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "Character",
+      "name": "Character",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Spaceboi"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
