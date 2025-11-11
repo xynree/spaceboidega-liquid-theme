@@ -14,10 +14,55 @@
     text-align: center;
   }
 
+  .character-display {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    min-height: 600px;
+  }
+
+  @media only screen and (min-width: 750px) {
+    .character-display {
+      flex-direction: row;
+      flex-wrap: nowrap;
+    }
+  }
+
+  .character-feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    width: 400px;
+    transition: opacity 0.3s ease;
+  }
+
+  .character-feature.updating {
+    opacity: 0.4;
+  }
+
+  .character-feature__name {
+    text-align: center;
+  }
+
+  .character-feature__image {
+    max-width: 300px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .character-feature__description {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
   .feature-grid {
     display: grid;
+    width: calc(100% - 480px);
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   .feature-grid-item {
@@ -25,15 +70,16 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: 48px;
     border: 1px solid lightgray;
-    padding: 1rem;
-    aspect-ratio: 1/1;
+    width: 100%;
+    height: 100%;
     cursor: pointer;
+    font-weight: 600;
   }
 
   .feature-grid-item:hover {
-    transform: scale(1.03);
+    transform: scale(1.01);
     transition: transform .2s ease;
   }
 {%- endstyle -%}
@@ -50,25 +96,105 @@
   </div>
 
   <!-- Character Blocks -->
-  {%- if section.blocks.length != 0 -%}
-    <div class="feature-grid">
-      {%- for block in section.blocks -%}
-        <div class="feature-grid-item">
-          {% if block.settings.image != blank %}
-            <div
-              class="feature-grid-item__image"
-              style="animation: fadeUp 0.6s ease-out forwards;"
-              {{ block.shopify_attributes }}
-            >
-              {{ block.settings.image | image_url: width: 200 | image_tag: alt: block.settings.alt }}
-            </div>
+
+  <div class="character-display">
+    <!-- Feature -->
+    <div class="character-area">
+      {% if section.blocks.first %}
+        <div class="character-feature">
+          <h3 class="character-feature__name">{{ section.blocks.first.settings.name }}</h3>
+          {% if section.blocks.first.settings.image != blank %}
+            {{
+              section.blocks.first.settings.image
+              | image_url: width: 500
+              | image_tag: class: 'character-feature__image', alt: section.blocks.first.settings.name
+            }}
           {% endif %}
-          <p {{ block.shopify_attributes }}>{{ block.settings.name }}</p>
+          <div class="character-feature__description">{{ section.blocks.first.settings.description }}</div>
         </div>
-      {%- endfor %}
+      {% endif %}
     </div>
-  {%- endif -%}
+
+    <!-- Character Grid -->
+    {%- if section.blocks.length != 0 -%}
+      <div class="feature-grid">
+        {%- for block in section.blocks -%}
+          <div
+            class="feature-grid-item"
+            data-name="{{ block.settings.name | escape }}"
+            data-description="{{ block.settings.description | strip_html | escape }}"
+            data-image="{{ block.settings.image | image_url: width: 300 }}"
+          >
+            {% if block.settings.image != blank %}
+              <div
+                class="feature-grid-item__image"
+                style="animation: fadeUp 0.6s ease-out forwards;"
+                {{ block.shopify_attributes }}
+              >
+                {{ block.settings.image | image_url: width: 160 | image_tag: alt: block.settings.alt }}
+              </div>
+            {% endif %}
+            <p {{ block.shopify_attributes }}>{{ block.settings.name }}</p>
+          </div>
+        {%- endfor %}
+      </div>
+    {%- endif -%}
+  </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const section = document.querySelector('.section-{{ section.id }}');
+    if (!section) return;
+
+    const gridItems = section.querySelectorAll('.feature-grid-item');
+    const characterArea = section.querySelector('.character-area');
+
+    // Render character details
+    const renderCharacter = (item) => {
+      const name = item.dataset.name || '';
+      const description = item.dataset.description || '';
+      const image = item.dataset.image || '';
+
+      if (!name || !image) return;
+
+      // Update existing DOM instead of recreating
+      const feature = characterArea.querySelector('.character-feature');
+      if (!feature) return;
+
+      const nameEl = feature.querySelector('.character-feature__name');
+      const descEl = feature.querySelector('.character-feature__description');
+      const imgEl = feature.querySelector('.character-feature__image');
+
+      if (nameEl) nameEl.textContent = name;
+      if (descEl) descEl.textContent = description;
+
+      if (imgEl) {
+        imgEl.setAttribute('src', image);
+        imgEl.removeAttribute('srcset');
+        imgEl.alt = name;
+      } else if (image) {
+        const newImg = document.createElement('img');
+        newImg.src = image;
+        newImg.alt = name;
+        newImg.className = 'character-feature__image';
+        feature.insertBefore(newImg, descEl?.parentElement || null);
+      }
+
+      feature.classList.add('updating');
+      setTimeout(() => feature.classList.remove('updating'), 200);
+    };
+
+    // Default: show first character
+    if (gridItems.length > 0) renderCharacter(gridItems[0]);
+
+    // Update on hover
+    gridItems.forEach((item) => {
+      item.addEventListener('mouseenter', () => renderCharacter(item));
+      item.addEventListener('focus', () => renderCharacter(item)); // accessibility for keyboard focus
+    });
+  });
+</script>
 
 {%- schema -%}
 {
@@ -127,6 +253,11 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
         }
       ]
     }
