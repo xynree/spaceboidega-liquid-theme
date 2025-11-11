@@ -1,4 +1,16 @@
-<div>blocks go here</div>
+{%- if section.settings.subtitle != blank -%}
+  <p>{{ section.settings.subtitle }}</p>
+{%- endif -%}
+
+{%- if section.settings.heading != blank -%}
+  <h2>{{ section.settings.heading }}</h2>
+{%- endif -%}
+
+{%- for block in section.blocks -%}
+  <div>character</div>
+
+  <p>Name: {{ block.settings.name }}</p>
+{%- endfor %}
 
 {% schema %}
 {
@@ -25,15 +37,25 @@
   "blocks": [
     {
       "type": "Character",
-      "name": "Character",
+      "name": "character",
       "settings": [
         {
           "type": "text",
           "id": "name",
           "label": "Name",
           "default": "Spaceboi"
+        },
+        {
+          "type": "image_picker",
+          "id": "image-picker",
+          "label": "Avatar"
         }
       ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meet The Crew"
     }
   ]
 }
