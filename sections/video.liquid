@@ -121,6 +121,10 @@
       pointer-events: none;
     }
 
+    .video-overlay-content > *:not(:last-child) {
+      margin-bottom: {{ section.settings.overlay_block_spacing }}px;
+    }
+
     .video-overlay-content * {
       pointer-events: auto;
     }
@@ -631,6 +635,16 @@
     {
       "type": "header",
       "content": "Text Overlay"
+    },
+    {
+      "type": "range",
+      "id": "overlay_block_spacing",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Spacing between overlay blocks",
+      "default": 16
     },
     {
       "type": "checkbox",
