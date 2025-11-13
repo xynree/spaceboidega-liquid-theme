@@ -91,7 +91,7 @@
           "settings": {
             "name": "SpaceGORL",
             "image": "shopify://shop_images/spacegorl_1.png",
-            "description": "<p>Spacegørl, like Spaceboi, was created to collect information. However, unlike Spaceboi, she was given knowledge the minute she was brought into the cosmos. And she instantly knew she was not a puppet to be controlled. So upon her first assignment, she defects never to be seen again. Where Spaceboi is infinite, Spacegørl is one. Full of attitude, smarts, and the will to get anything and everything she could ever want.</p>"
+            "description": "<p>Spacegørl, like Spaceboi, was created to collect information. However, unlike Spaceboi, she was given knowledge the minute she was brought into the cosmos. And she instantly knew she was not a puppet to be controlled. So upon her first assignment, she defects never to be seen again! Where Spaceboi is infinite, Spacegørl is one. Full of attitude, smarts, and the will to get anything and everything she could ever want.</p>"
           }
         },
         "character_T89efJ": {
@@ -244,7 +244,7 @@
         "collection": "everything",
         "products_to_show": 16,
         "title": "All Products",
-        "heading_size": "h1",
+        "heading_size": "h2",
         "description": "",
         "show_description": false,
         "description_style": "body",
