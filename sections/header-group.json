@@ -29,6 +29,7 @@
         "auto_rotate": false,
         "change_slides_speed": 5,
         "color_scheme": "scheme-4",
+        "font_weight": "400",
         "show_line_separator": true,
         "show_social": false,
         "enable_country_selector": false,
@@ -40,7 +41,7 @@
       "settings": {
         "logo_position": "top-center",
         "mobile_logo_position": "center",
-        "menu": "main-menu",
+        "menu": "header-menu",
         "menu_type_desktop": "mega",
         "sticky_header_type": "none",
         "show_line_separator": false,

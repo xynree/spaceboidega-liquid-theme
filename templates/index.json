@@ -11,6 +11,36 @@
   "sections": {
     "video_xicmA7": {
       "type": "video",
+      "blocks": {
+        "image_Y7XKnM": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/New_Website_Logo_fe8bdfc1-5561-48c8-87c6-370880ab9cdd.png",
+            "alt": "Overlay image",
+            "max_width": 1600,
+            "opacity": 100
+          }
+        },
+        "subtitle_kh6iW8": {
+          "type": "subtitle",
+          "settings": {
+            "text": "New clear spaceboi now available!",
+            "size": 16
+          }
+        },
+        "button_c6VDyi": {
+          "type": "button",
+          "settings": {
+            "label": "Preorder Now",
+            "link": "shopify://products/preorder-radiograph-spaceboi-sofubi"
+          }
+        }
+      },
+      "block_order": [
+        "image_Y7XKnM",
+        "subtitle_kh6iW8",
+        "button_c6VDyi"
+      ],
       "name": "t:sections.video.presets.name",
       "settings": {
         "heading": "",
@@ -18,265 +48,202 @@
         "enable_video_looping": true,
         "enable_autoplay": true,
         "max_height": 700,
-        "show_overlay_content": true,
-        "overlay_subtitle": "tagline goes here",
-        "overlay_title": "New Plushies Now Available!",
-        "subtitle_size": 16,
-        "title_size": 48,
+        "mobile_height_proportion": 60,
+        "overlay_color": "#000000",
+        "overlay_use_gradient": true,
+        "overlay_gradient_start_color": "#1417d6",
+        "overlay_gradient_end_color": "#ff9540",
+        "overlay_gradient_angle": 180,
+        "overlay_opacity": 50,
+        "overlay_texture_enabled": true,
+        "overlay_texture_strength": 55,
+        "video_blur_amount": 2,
+        "video_blur_enabled": true,
+        "overlay_block_spacing": 24,
+        "show_overlay_content": false,
         "overlay_text_color": "#ffffff",
-        "button_label": "Preorder Now",
-        "button_link": "shopify://collections/preorders",
         "button_bg_color": "#ffffff",
         "button_text_color": "#000000",
-        "button_hover_bg_color": "#000000",
+        "button_hover_bg_color": "#ff9540",
         "button_hover_text_color": "#ffffff",
-        "video": "shopify://files/videos/0809(1).mp4",
+        "video": "shopify://files/videos/Video 1110.mp4",
         "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
         "description": "",
         "full_width": true,
         "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "collage": {
-      "type": "collage",
-      "blocks": {
-        "image-1": {
-          "type": "image",
-          "settings": {}
-        },
-        "image-2": {
-          "type": "image",
-          "settings": {}
-        },
-        "image-3": {
-          "type": "image",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "image-1",
-        "image-2",
-        "image-3"
-      ],
-      "settings": {
-        "heading": "",
-        "heading_size": "h1",
-        "desktop_layout": "left",
-        "mobile_layout": "column",
-        "card_styles": "product-card-wrapper",
-        "color_scheme": "scheme-1",
-        "padding_top": 28,
-        "padding_bottom": 4
-      }
-    },
-    "multicolumn": {
-      "type": "multicolumn",
-      "blocks": {
-        "column": {
-          "type": "column",
-          "settings": {
-            "title": "",
-            "text": "",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column-1": {
-          "type": "column",
-          "settings": {
-            "title": "Discover this season's new arrivals",
-            "text": "",
-            "link_label": "Shop",
-            "link": "shopify://collections/all"
-          }
-        },
-        "column-2": {
-          "type": "column",
-          "settings": {
-            "title": "",
-            "text": "",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column-3": {
-          "type": "column",
-          "settings": {
-            "title": "",
-            "text": "",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "column",
-        "column-1",
-        "column-2",
-        "column-3"
-      ],
-      "settings": {
-        "title": "",
-        "heading_size": "h1",
-        "image_width": "full",
-        "image_ratio": "adapt",
-        "button_label": "",
-        "button_link": "",
-        "columns_desktop": 4,
-        "column_alignment": "left",
-        "background_style": "none",
-        "color_scheme": "scheme-1",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "padding_top": 60,
-        "padding_bottom": 36
-      }
-    },
-    "image-with-text": {
-      "type": "image-with-text",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Designed for everyone",
-            "heading_size": "h2"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Our products are made for anyone that will wear.</p>",
-            "text_style": "body"
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "text"
-      ],
-      "settings": {
-        "height": "adapt",
-        "desktop_image_width": "medium",
-        "layout": "image_first",
-        "image_behavior": "none",
-        "content_layout": "no-overlap",
-        "desktop_content_position": "middle",
-        "desktop_content_alignment": "left",
-        "mobile_content_alignment": "left",
-        "section_color_scheme": "scheme-1",
-        "color_scheme": "scheme-2",
         "padding_top": 0,
         "padding_bottom": 0
       }
     },
-    "image-with-text-1": {
-      "type": "image-with-text",
+    "meet_the_crew_QfpQNA": {
+      "type": "meet-the-crew",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "character_FtrR84": {
+          "type": "Character",
           "settings": {
-            "heading": "Made with premium materials",
-            "heading_size": "h2"
+            "name": "SpaceBOI",
+            "image": "shopify://shop_images/spaceboi_2.png",
+            "description": "<p>Spaceboi is an inter-dimensional android boi infinitely created and sent out to new dimensions to collect information by the all powerful Spacegawd. Spaceboi’s come in all styles and variants. Spaceboi’s tend to die…Spaceboi is clueless and shares a collective consciousness with other spaceboi’s. For this reason, Spaceboi is infinite.</p>"
           }
         },
-        "text": {
-          "type": "text",
+        "character_HgU8ek": {
+          "type": "Character",
           "settings": {
-            "text": "<p>Our products are made from the highest quality fibers.</p>",
-            "text_style": "body"
+            "name": "SpaceGORL",
+            "image": "shopify://shop_images/spacegorl_1.png",
+            "description": "<p>Spacegørl, like Spaceboi, was created to collect information. However, unlike Spaceboi, she was given knowledge the minute she was brought into the cosmos. And she instantly knew she was not a puppet to be controlled. So upon her first assignment, she defects never to be seen again. Where Spaceboi is infinite, Spacegørl is one. Full of attitude, smarts, and the will to get anything and everything she could ever want.</p>"
+          }
+        },
+        "character_T89efJ": {
+          "type": "Character",
+          "settings": {
+            "name": "SpaceGAWD",
+            "image": "shopify://shop_images/spacegawd_3.png",
+            "description": "<p>Spacegawd is the all powerful, omniscient, beautiful, ruler of all.  They are the creator of Spaceboi’s that sprawl across the cosmos and that one pesky Spacegørl that defected and … yeah we don’t talk about her. Spacegawd is all that ever was and all that ever will be. We all need a little GAWD in our life. And lucky for you. He is here.. Spacegawd is here!</p>"
           }
         }
       },
       "block_order": [
-        "heading",
-        "text"
+        "character_FtrR84",
+        "character_HgU8ek",
+        "character_T89efJ"
       ],
+      "name": "Meet The Crew",
       "settings": {
-        "height": "adapt",
+        "heading": "Meet the Spaceboidega family",
+        "subtitle": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "products_selector_jXMD6a": {
+      "type": "products-selector",
+      "blocks": {
+        "product_HrHAEd": {
+          "type": "product",
+          "settings": {
+            "product": "spacegawd-plushie-preorder",
+            "button_label": "SpaceGAWD Plushie"
+          }
+        },
+        "product_CTjCA8": {
+          "type": "product",
+          "settings": {
+            "product": "spacegorl-plushie-preorder",
+            "button_label": "SpaceGORL Plushie"
+          }
+        }
+      },
+      "block_order": [
+        "product_HrHAEd",
+        "product_CTjCA8"
+      ],
+      "name": "Product Selector",
+      "settings": {
+        "heading": "Newly Available: Plushies",
+        "color_scheme": "scheme-2",
+        "heading_size": "h1",
+        "button_text": "Add to Cart",
+        "padding_top": 36,
+        "padding_bottom": 48
+      }
+    },
+    "collection_list_UigAQa": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_wxJqpd": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "keychains"
+          }
+        },
+        "featured_collection_MAPxaW": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "vinyl-stickers"
+          }
+        },
+        "featured_collection_d6WG9f": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "pins"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_wxJqpd",
+        "featured_collection_MAPxaW",
+        "featured_collection_d6WG9f"
+      ],
+      "name": "t:sections.collection-list.presets.name",
+      "settings": {
+        "title": "Accesories",
+        "heading_size": "h2",
+        "image_ratio": "square",
+        "columns_desktop": 3,
+        "color_scheme": "",
+        "show_view_all": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_DQBQgp": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_THcKff": {
+          "type": "heading",
+          "settings": {
+            "heading": "Apparel",
+            "heading_size": "h1"
+          }
+        },
+        "text_7PziqT": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Now in stock: Hoodies, baseball caps, and more!</p>",
+            "text_style": "subtitle"
+          }
+        },
+        "button_UkF7Mm": {
+          "type": "button",
+          "settings": {
+            "button_label": "See More >",
+            "button_link": "shopify://collections/clothing",
+            "button_style_secondary": true
+          }
+        }
+      },
+      "block_order": [
+        "heading_THcKff",
+        "text_7PziqT",
+        "button_UkF7Mm"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/WebsitePhotosSB67.jpg",
+        "height": "medium",
         "desktop_image_width": "medium",
         "layout": "text_first",
         "image_behavior": "none",
         "content_layout": "no-overlap",
         "desktop_content_position": "middle",
-        "desktop_content_alignment": "left",
-        "mobile_content_alignment": "left",
-        "section_color_scheme": "scheme-1",
+        "desktop_content_alignment": "center",
+        "mobile_content_alignment": "center",
+        "section_color_scheme": "scheme-4",
         "color_scheme": "scheme-4",
         "padding_top": 0,
         "padding_bottom": 0
       }
     },
-    "multicolumn-1": {
-      "type": "multicolumn",
-      "blocks": {
-        "column": {
-          "type": "column",
-          "settings": {
-            "title": "",
-            "text": "",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column-1": {
-          "type": "column",
-          "settings": {
-            "title": "Featured products",
-            "text": "",
-            "link_label": "Shop",
-            "link": "shopify://collections/all"
-          }
-        },
-        "column-2": {
-          "type": "column",
-          "settings": {
-            "title": "",
-            "text": "",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column-3": {
-          "type": "column",
-          "settings": {
-            "title": "",
-            "text": "",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "column",
-        "column-1",
-        "column-2",
-        "column-3"
-      ],
-      "settings": {
-        "title": "",
-        "heading_size": "h1",
-        "image_width": "full",
-        "image_ratio": "adapt",
-        "button_label": "",
-        "button_link": "",
-        "columns_desktop": 4,
-        "column_alignment": "left",
-        "background_style": "none",
-        "color_scheme": "scheme-1",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "padding_top": 64,
-        "padding_bottom": 0
-      }
-    },
-    "featured-collection": {
+    "featured_collection_pRi94a": {
       "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
       "settings": {
-        "collection": "all",
-        "products_to_show": 4,
-        "title": "",
+        "collection": "everything",
+        "products_to_show": 16,
+        "title": "All Products",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
@@ -284,29 +251,46 @@
         "columns_desktop": 4,
         "enable_desktop_slider": false,
         "full_width": false,
-        "show_view_all": false,
+        "show_view_all": true,
         "view_all_style": "solid",
-        "color_scheme": "scheme-1",
-        "image_ratio": "portrait",
+        "color_scheme": "",
+        "image_ratio": "square",
         "image_shape": "default",
-        "show_secondary_image": false,
+        "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
         "quick_add": "none",
-        "columns_mobile": "1",
+        "columns_mobile": "2",
         "swipe_on_mobile": false,
-        "padding_top": 0,
-        "padding_bottom": 44
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_banner_mQrUy9": {
+      "type": "image-banner",
+      "name": "t:sections.image-banner.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/Spaceboidega_Website_Banner.png",
+        "image_overlay_opacity": 0,
+        "image_height": "small",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "color_scheme": "",
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": true
       }
     }
   },
   "order": [
     "video_xicmA7",
-    "collage",
-    "multicolumn",
-    "image-with-text",
-    "image-with-text-1",
-    "multicolumn-1",
-    "featured-collection"
+    "meet_the_crew_QfpQNA",
+    "products_selector_jXMD6a",
+    "collection_list_UigAQa",
+    "image_with_text_DQBQgp",
+    "featured_collection_pRi94a",
+    "image_banner_mQrUy9"
   ]
 }

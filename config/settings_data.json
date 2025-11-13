@@ -9,7 +9,9 @@
  */
 {
   "current": {
-    "logo_width": 80,
+    "logo": "shopify://shop_images/Website_Logo_from_Google_Drive.png",
+    "logo_width": 120,
+    "favicon": "shopify://shop_images/Business_Cards_SB_2023.avif",
     "type_header_font": "ibm_plex_mono_n7",
     "heading_scale": 100,
     "type_body_font": "ibm_plex_mono_n4",
