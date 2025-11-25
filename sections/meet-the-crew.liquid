@@ -21,12 +21,6 @@
     min-height: 700px;
   }
 
-  @media only screen and (min-width: 750px) {
-    .character-display {
-      flex-direction: row;
-      flex-wrap: nowrap;
-    }
-  }
 
   .character-feature {
     display: flex;
@@ -81,6 +75,43 @@
   .feature-grid-item:hover {
     transform: scale(1.01);
     transition: transform .2s ease;
+  }
+
+
+  /** Mobile **/
+  @media only screen and (max-width: 749px) {
+    .section-{{ section.id }} {
+      overflow-x: hidden; /* Clip the overflowing grid */
+    }
+
+    .feature-grid {
+      width: 100%; /* Use full width on mobile */
+      gap: 0.5rem; /* Slightly smaller gap on mobile */
+      overflow-x: scroll;
+      padding: 0.5rem;
+
+    }
+
+    .feature-grid-item {
+      max-width: 100%;
+    }
+
+    .feature-grid-item.active {
+      border-color: #000; /* Or your theme color */
+      background-color: rgba(0, 0, 0, 0.05); /* Light background to show selection */
+    }
+
+    .character-feature {
+      width: 100%;
+      padding-top: 0;
+    }
+  }
+
+  @media only screen and (min-width: 750px) {
+    .character-display {
+      flex-direction: row;
+      flex-wrap: nowrap;
+    }
   }
 {%- endstyle -%}
 
@@ -188,10 +219,38 @@
     // Default: show first character
     if (gridItems.length > 0) renderCharacter(gridItems[0]);
 
-    // Update on hover
+    // Update on hover (desktop) and click (mobile)
     gridItems.forEach((item) => {
-      item.addEventListener('mouseenter', () => renderCharacter(item));
+      let isMobile = window.innerWidth <= 749;
+
+      // Add click handler for mobile
+      item.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent any default link behavior
+        renderCharacter(item);
+
+        // Optional: Add active state styling
+        // Remove active class from all items first
+        gridItems.forEach((otherItem) => otherItem.classList.remove('active'));
+        // Add active class to clicked item
+        item.classList.add('active');
+      });
+
+      // Keep hover for desktop, but remove for mobile to prevent conflicts
+      if (!isMobile) {
+        item.addEventListener('mouseenter', () => renderCharacter(item));
+      }
+
       item.addEventListener('focus', () => renderCharacter(item)); // accessibility for keyboard focus
+    });
+
+    // Handle window resize to switch between hover/click behavior
+    window.addEventListener('resize', () => {
+      const newIsMobile = window.innerWidth <= 749;
+      if (newIsMobile !== isMobile) {
+        isMobile = newIsMobile;
+        // Re-initialize event listeners if needed
+        location.reload(); // Simple solution - reload to reapply correct listeners
+      }
     });
   });
 </script>
