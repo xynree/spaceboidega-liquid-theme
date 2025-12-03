@@ -1,0 +1,57 @@
+{%-  liquid 
+  assign collection = section.settings.collection
+  assign placeholder = false
+
+  if collection == blank
+    assign placeholder = true
+  endif
+-%}
+
+{% if placeholder %}
+
+  placeholder
+
+  {% else %}
+
+{{ collection.title }}
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Collection Lookbook",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Selected Collection"
+    },
+    {
+      "type": "range",
+      "id":"num_products",
+      "default": 10,
+      "min": 5,
+      "max": 50,
+      "step": 5,
+      "label": "Number of Visible Products"
+    },
+    {
+      "type": "range",
+      "id": "num_images_per_product",
+      "default": 3,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "label": "Number of Images per Product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Lookbook"
+    }
+  ]
+}
+{% endschema %}
