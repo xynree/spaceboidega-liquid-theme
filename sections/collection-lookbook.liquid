@@ -6,6 +6,9 @@
 {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 
+<script src="{{ 'media-gallery.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-modal.js' | asset_url }}" defer="defer"></script>
+
 {% if section.settings.image_shape == 'blob' %}
   {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
@@ -182,17 +185,28 @@
 
                 >
                 {% render 'product-media-gallery',
-                    product: product,
-                    variant_images: product.images,
-                    limit: section.settings.num_images_per_product
-                %}
+                product: product,
+                variant_images: product.media,
+                limit: section.settings.num_images_per_product,
+                gallery_layout: section.settings.gallery_layout,
+                mobile_thumbnails: section.settings.mobile_thumbnails,
+                media_size: section.settings.media_size,
+                media_fit: section.settings.media_fit,
+                constrain_to_viewport: section.settings.constrain_to_viewport,
+                image_zoom: section.settings.image_zoom,
+                enable_video_looping: section.settings.enable_video_looping,
+                hide_variants: section.settings.hide_variants
+              
+
+                {% render 'product-media-modal', product: product, section_id: section.id %}
                 </li>
 
                 {% render 'price', product: product %}
 
-                
+
                 {%- assign skip_card_product_styles = true -%}
                 </div>
+
 
               {%- endfor -%}
             </ul>
@@ -403,6 +417,83 @@
       "id": "enable_sorting",
       "default": true,
       "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+    },
+    {
+      "type": "header",
+      "content": "Gallery settings"
+    },
+    {
+      "type": "select",
+      "id": "gallery_layout",
+      "label": "Gallery layout",
+      "options": [
+        { "value": "single", "label": "Single" },
+        { "value": "columns", "label": "Columns" },
+        { "value": "thumbnail", "label": "Thumbnails" },
+        { "value": "thumbnail_slider", "label": "Thumbnail slider" }
+      ],
+      "default": "thumbnail_slider"
+    },
+    {
+      "type": "select",
+      "id": "mobile_thumbnails",
+      "label": "Mobile thumbnails",
+      "options": [
+        { "value": "hide", "label": "Hide" },
+        { "value": "show", "label": "Show" },
+        { "value": "columns", "label": "Columns" }
+      ],
+      "default": "show"
+    },
+    {
+      "type": "select",
+      "id": "media_size",
+      "label": "Media size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "media_fit",
+      "label": "Media fit",
+      "options": [
+        { "value": "contain", "label": "Contain" },
+        { "value": "cover", "label": "Cover" }
+      ],
+      "default": "contain"
+    },
+    {
+      "type": "checkbox",
+      "id": "constrain_to_viewport",
+      "label": "Constrain media to viewport",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "image_zoom",
+      "label": "Image zoom",
+      "options": [
+        { "value": "lightbox", "label": "Lightbox" },
+        { "value": "zoom", "label": "Zoom" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "lightbox"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "default": true,
+      "label": "Loop videos"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_variants",
+      "default": false,
+      "label": "Hide variant duplicate images"
     },
     {
       "type": "header",
