@@ -14,11 +14,9 @@
 
 {% if placeholder %}
 
-  placeholder
+ 
 
   {% else %}
-
-
     {%- for product in collection.products limit: section.settings.num_products -%}
 
         <p>Product: {{ product.title }}</p>

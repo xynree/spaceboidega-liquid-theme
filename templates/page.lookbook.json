@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "lookbook": {
+      "type": "collection-lookbook",
+      "settings": {
+        "collection": "everything",
+        "num_products": 20,
+        "num_images_per_product": 10
+      }
+    }
+  },
+  "order": [
+    "lookbook"
+  ]
+}
