@@ -24,7 +24,7 @@
         "subtitle_kh6iW8": {
           "type": "subtitle",
           "settings": {
-            "text": "New clear spaceboi now available!",
+            "text": "New Spaceboi Sofubi now available!",
             "size": 16
           }
         },
@@ -81,7 +81,7 @@
         "character_FtrR84": {
           "type": "Character",
           "settings": {
-            "name": "SpaceBOI",
+            "name": "Spaceboi",
             "image": "shopify://shop_images/spaceboi_2.png",
             "description": "<p>Spaceboi is an inter-dimensional android boi infinitely created and sent out to new dimensions to collect information by the all powerful Spacegawd. Spaceboi’s come in all styles and variants. Spaceboi’s tend to die…Spaceboi is clueless and shares a collective consciousness with other spaceboi’s. For this reason, Spaceboi is infinite.</p>"
           }
@@ -89,7 +89,7 @@
         "character_HgU8ek": {
           "type": "Character",
           "settings": {
-            "name": "SpaceGORL",
+            "name": "Spacegorl",
             "image": "shopify://shop_images/spacegorl_1.png",
             "description": "<p>Spacegørl, like Spaceboi, was created to collect information. However, unlike Spaceboi, she was given knowledge the minute she was brought into the cosmos. And she instantly knew she was not a puppet to be controlled. So upon her first assignment, she defects never to be seen again! Where Spaceboi is infinite, Spacegørl is one. Full of attitude, smarts, and the will to get anything and everything she could ever want.</p>"
           }
@@ -110,7 +110,7 @@
       ],
       "name": "Meet The Crew",
       "settings": {
-        "heading": "Meet the Spaceboidega family",
+        "heading": "Meet the Spaceboidega Universe family",
         "subtitle": "",
         "padding_top": 36,
         "padding_bottom": 36
