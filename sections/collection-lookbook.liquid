@@ -1,3 +1,6 @@
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+
 {%-  liquid 
   assign collection = section.settings.collection
   assign placeholder = false
@@ -7,13 +10,35 @@
   endif
 -%}
 
+<!-- Template -->
+
 {% if placeholder %}
 
   placeholder
 
   {% else %}
 
-{{ collection.title }}
+
+    {%- for product in collection.products limit: section.settings.num_products -%}
+
+        <p>Product: {{ product.title }}</p>
+
+        <div
+          id="Slide-{{ section.id }}-{{ forloop.index }}"
+          class="grid__item slider__slide scroll-trigger animate--slide-in"
+          data-cascade
+          style="--animation-order: {{ forloop.index }}; width: 100%;"
+        >
+
+        {% render 'product-media-gallery',
+            product: product,
+            variant_images: product.images,
+            limit: section.settings.num_images_per_product
+        %}
+
+      </div>
+
+    {%- endfor -%}
 
 {% endif %}
 
@@ -46,6 +71,30 @@
       "max": 10,
       "step": 1,
       "label": "Number of Images per Product"
+    },
+    {
+      "type": "header",
+      "content": "Product Settings"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.featured-collection.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.featured-collection.settings.image_ratio.label"
     }
   ],
   "presets": [
