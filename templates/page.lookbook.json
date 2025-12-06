@@ -4,13 +4,13 @@
       "type": "collection-lookbook",
       "settings": {
         "collection": "everything",
-        "num_products": 20,
+        "products_per_page": 8,
         "num_images_per_product": 10,
-        "enable_filtering": true
+        "columns_desktop": 3,
+        "enable_filtering": true,
+        "gallery_layout": "columns"
       }
     }
   },
-  "order": [
-    "lookbook"
-  ]
+  "order": ["lookbook"]
 }
