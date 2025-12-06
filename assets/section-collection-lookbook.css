@@ -1,0 +1,14 @@
+.lookbook-product-images li {
+  position: relative; /* contain video */
+  overflow: visible;
+}
+
+.lookbook-product-images video {
+  position: relative !important;  /* override absolute from base.css */
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: auto;
+}

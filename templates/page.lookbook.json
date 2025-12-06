@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "lookbook": {
+      "type": "collection-lookbook",
+      "settings": {
+        "collection": "everything",
+        "products_per_page": 8,
+        "num_images_per_product": 10,
+        "columns_desktop": 3,
+        "enable_filtering": true,
+        "gallery_layout": "columns"
+      }
+    }
+  },
+  "order": ["lookbook"]
+}
